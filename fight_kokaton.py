@@ -18,7 +18,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     戻り値：横方向，縦方向のはみ出し判定結果（画面内：True／画面外：False）
     """
     yoko, tate = True, True
-    if obj_rct.left < 0 or WIDTH < obj_rct.right:
+    if obj_rct.left < 0 or WIDTH < obj_rct.right: #width-100を実行すると、球が消える為 2の範囲外の場合は達成
         yoko = False
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate = False
@@ -170,7 +170,7 @@ def main():
         bombs.append(Bomb((255,0,0),10))
     clock = pg.time.Clock()
     tmr = 0
-    kabe = 0
+    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -179,7 +179,7 @@ def main():
                 # スペースキー押下でBeamクラスのインスタンス生成
                 beam = Beam(bird)
                 beams.append(beam)
-                kabe += 1
+            
        
         screen.blit(bg_img, [0, 0])
         # if bomb is not None:
@@ -203,8 +203,7 @@ def main():
                     score.score += 1
             bombs = [bomb for bomb in bombs if bomb is not None]
             beams = [beams for beams in beams if beams is not None]
-        if kabe >= 1100:
-                    beams[-1] = None   
+        
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
